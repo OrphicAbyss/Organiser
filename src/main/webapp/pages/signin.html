@@ -1,0 +1,25 @@
+<form name="signupForm" class="no-margin" data-ng-submit="signinSubmit()">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="close()">×</button>
+        <h3>Welcome to Cooking Notebook</h3>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-error" data-ng-repeat="alert in signinAlert">
+            {{alert.msg}}
+            <button type="button" class="close" data-ng-click="signinCloseAlert($index)">×</button>
+        </div>
+        <input class="input-block-level" name="username" placeholder="Username" type="text" data-ng-model="signinData.username" required/>
+        <input class="input-block-level" name="password" placeholder="Password" type="password" data-ng-model="signinData.password" required/>
+        <br/>
+        <br/>
+        <div class="pull-left">
+            <!-- Button to trigger modal -->
+            <a href="" class="btn-small" data-ng-click="openForgotDialog()">Forgot password?</a>
+            <a href="" class="btn-small" data-ng-click="openSignupDialog()">Need an account?</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" data-ng-click="close()">Cancel</a>
+        <button class="btn btn-primary" type="submit">Sign in</button>
+    </div>
+</form>

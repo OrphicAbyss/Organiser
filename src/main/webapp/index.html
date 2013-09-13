@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html ng-app="NatusOrg">
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">-->
+        <!-- Latest compiled and minified JavaScript -->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
+        <script src="js/app.js"></script>
+
+        <style>
+            .table thead th {
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                background-color: #dfdfdf;
+            }
+
+            .table tfoot td {
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+                background-color: #dfdfdf;
+            }
+
+            .highlight {
+                border-color: #ffcfcf;
+                border-width: 2px;
+            }
+        </style>
+    </head>
+    <body ng-controller="PageCtrl">
+        <div class="container">
+            <div class="navbar  navbar-default">
+                <div class="navbar-header">
+                    <a class="navbar-brand">Natus Organizare</a>
+                </div>
+                <form class="navbar-form navbar-right">
+                    <a class="btn navbar-button btn-primary">Login</a>
+                </form>
+            </div>
+            <div class="jumbotron">
+                <h1>Organise your life</h1>
+                <p class="lead">We are here to help orgainse your life, login to start organising.</p>
+            </div>
+            <div ng-view></div>
+            <div>
+                <div class="panel-group" id="accordion">
+                    <ul class="list-unstyled" id="sortable">
+                        <li ng-repeat="item in todo.list">
+                            <div ng-show="item.editing" class="panel panel-default highlight">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <input ng-model="item.title" ng-show="item.editing" class="form-control" type="text"/>
+                                    </h4>
+                                </div>
+                                <div class="panel-body panel-body">
+                                    <textarea ng-model="item.extra" class="form-control"></textarea>
+                                    <br/>
+                                    <button  ng-click="item.editing = !item.editing" class="btn btn-xs btn-primary pull-right">Done</button>
+                                </div>
+                            </div>
+                            <div ng-show="!item.editing" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="pull-right">
+                                        <a ng-click="item.editing = !item.editing" class="btn btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a class="btn btn-xs"><i class="glyphicon glyphicon-ban-circle"></i></a>
+                                    </div>
+                                    <h4 class="panel-title">
+                                        <a ng-bind="item.title" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel-todo-{{item.id}}"></a>
+                                    </h4>
+                                </div>
+                                <div id="panel-todo-{{item.id}}" class="panel-collapse collapse collapsed">
+                                    <div ng-bind="item.extra" class="panel-body"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Item count: {{todo.list.length}}
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <form ng-submit="add()">
+                    <div class="input-group">
+                        <input ng-model="todo.add" type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button ng-click="clickAdd()" class="btn btn-primary">Add</button>
+                        </span>
+                    </div>
+                </form>
+                <br/>
+            </div>
+        </div>
+    </body>
+</html>
