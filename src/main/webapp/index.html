@@ -11,7 +11,7 @@
         <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">-->
         <!-- Latest compiled and minified JavaScript -->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
         <script src="js/app.js"></script>
@@ -33,6 +33,86 @@
                 border-color: #ffcfcf;
                 border-width: 2px;
             }
+
+            .animate-enter {
+                -webkit-animation: enter_sequence 05s linear; /* Safari/Chrome */
+                -moz-animation: enter_sequence 05s linear; /* Firefox */
+                -o-animation: enter_sequence 05s linear; /* Opera */
+                animation: enter_sequence 05s linear; /* IE10+ and Future Browsers */
+            }
+
+            @-webkit-keyframes enter_sequence {
+                from { float:left; position: relative; top: 0px; margin-right: -100%; width: 100%; }
+                to { float:left; position: relative; top: 0px; margin-right: 0; width: 100%; }
+            }
+
+            @-moz-keyframes enter_sequence {
+                from { position: relative; top: 0px; margin-left: 100%; width: 100%; }
+                to { position: relative; top: 0px; margin-left: 0; width: 100%; }
+            }
+
+            @-o-keyframes enter_sequence {
+                from { position: relative; top: 0px; margin-left: 100%; width: 100%; }
+                to { position: relative; top: 0px; margin-left: 0; width: 100%; }
+            }
+
+            @keyframes enter_sequence {
+                from { float:left; position: relative; top: 0px; margin-right: -100%; width: 100%; }
+                to { float:left; position: relative; top: 0px; margin-right: 0; width: 100%; }
+            }
+
+            .animate-exit {
+                -webkit-animation: exit_sequence 05s linear; /* Safari/Chrome */
+                -moz-animation: exit_sequence 05s linear; /* Firefox */
+                -o-animation: exit_sequence 05s linear; /* Opera */
+                animation: exit_sequence 05s linear; /* IE10+ and Future Browsers */
+            }
+
+            @-webkit-keyframes exit_sequence {
+                from { float:left; position: relative; top: 0px; margin-left: 0; width: 100%; }
+                to { float:left; position: relative; top: 0px; margin-left: -100%; width: 100%; }
+            }
+
+            @-moz-keyframes exit_sequence {
+                from { position: relative; top: 0px; margin-left: 0; width: 100%; }
+                to { position: relative; top: 0px; margin-left: -100%; width: 100%; }
+            }
+
+            @-o-keyframes exit_sequence {
+                from { position: relative; top: 0px; margin-left: 0; width: 100%; }
+                to { position: relative; top: 0px; margin-left: -100%; width: 100%; }
+            }
+
+            @keyframes exit_sequence {
+                from { float:left; position: relative; top: 0px; margin-left: 0; width: 100%; }
+                to { float:left; position: relative; top: 0px; margin-left: -100%; width: 100%; }
+            }
+
+            .moving {
+                /*opacity: 0.75;*/
+                -webkit-transform: scale(0.95);
+                -webkit-transform-origin: center ;
+                -moz-transform: scale(0.95);
+                -moz-transform-origin: center;
+                -ms-transform: scale(0.95);
+                -ms-transform-origin: center;
+                transform: scale(0.95);
+                transform-origin: center;
+            }
+
+            .over {
+                opacity: 0.75;
+            }
+
+            .panel-group li {
+                margin-top: 5px;
+            }
+
+            .tab-content {
+                padding: 10px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+            }
         </style>
     </head>
     <body ng-controller="PageCtrl">
@@ -51,53 +131,47 @@
             </div>
             <div ng-view></div>
             <div>
-                <div class="panel-group" id="accordion">
-                    <ul class="list-unstyled" id="sortable">
-                        <li ng-repeat="item in todo.list">
-                            <div ng-show="item.editing" class="panel panel-default highlight">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <input ng-model="item.title" ng-show="item.editing" class="form-control" type="text"/>
-                                    </h4>
-                                </div>
-                                <div class="panel-body panel-body">
-                                    <textarea ng-model="item.extra" class="form-control"></textarea>
-                                    <br/>
-                                    <button  ng-click="item.editing = !item.editing" class="btn btn-xs btn-primary pull-right">Done</button>
-                                </div>
-                            </div>
-                            <div ng-show="!item.editing" class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="pull-right">
-                                        <a ng-click="item.editing = !item.editing" class="btn btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a class="btn btn-xs"><i class="glyphicon glyphicon-ban-circle"></i></a>
-                                    </div>
-                                    <h4 class="panel-title">
-                                        <a ng-bind="item.title" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel-todo-{{item.id}}"></a>
-                                    </h4>
-                                </div>
-                                <div id="panel-todo-{{item.id}}" class="panel-collapse collapse collapsed">
-                                    <div ng-bind="item.extra" class="panel-body"></div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Item count: {{todo.list.length}}
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#todo">To do</a></li>
+                    <li><a href="#done">Done</a></li>
+                    <li><a href="#add">New</a></li>
+<!--                    <li><a href="#settings">...</a></li>-->
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="todo">
+                        <div class="panel-group">
+                            <ul class="list-unstyled">
+                                <li ng-repeat="item in todo.list | notDone:item">
+                                <task ng-list="todo.list" ng-model="item"></task>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <br/>
-                <form ng-submit="add()">
-                    <div class="input-group">
-                        <input ng-model="todo.add" type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button ng-click="clickAdd()" class="btn btn-primary">Add</button>
-                        </span>
+                    <div class="tab-pane" id="done">
+                        <div class="panel-group">
+                            <ul class="list-unstyled">
+                                <li ng-repeat="item in todo.list | isDone:item">
+                                <task ng-list="todo.list" ng-model="item"></task>
+                                </li>
+                            </ul>
+                        </div>                        
                     </div>
-                </form>
-                <br/>
+                    <div class="tab-pane" id="add">
+                        <form ng-submit="add()">
+                            <div  class="panel panel-default">
+                                <div class="panel-heading">
+                                    <input ng-model="todo.add.title" class="form-control" type="text"/>
+                                </div>
+                                <div class="panel-body">
+                                    <textarea ng-model="todo.add.extra" class="form-control"></textarea>
+                                    <br/>
+                                    <button ng-click="clickAdd()" class="btn btn-xs btn-primary pull-right">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="settings">Settings...</div>
+                </div>
             </div>
         </div>
     </body>

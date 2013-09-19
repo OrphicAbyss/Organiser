@@ -1,0 +1,25 @@
+<div  class="panel panel-default">
+    <div class="panel-heading">
+        <div ng-show="item.editing">
+            <input ng-model="item.title" class="form-control" type="text"/>
+        </div>
+        <div ng-show="!item.editing">
+            <div class="pull-right">
+                <a ng-click="editClick()" class="btn btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Edit Task"><i class="glyphicon glyphicon-edit"></i></a>
+                <a ng-click="doneClick()" class="btn btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Mark as Done"><i class="glyphicon glyphicon-check"></i></a>
+                <a ng-click="deleteClick()" class="btn btn-xs" data-toggle="tooltip" data-placement="top" data-original-title="Delete Task"><i class="glyphicon glyphicon-ban-circle"></i></a>
+            </div>
+            <h4 class="panel-title">
+                {{item.title}}
+            </h4>
+        </div>
+    </div>
+    <div ng-show="!item.editing" ng-bind="item.extra" class="panel-body"></div>
+    <div ng-show="item.editing" class="panel-body">
+        <textarea ng-model="item.extra" class="form-control"></textarea>
+        <div class="checkbox">
+            <label><input ng-model="item.done" type="checkbox" title="done"/>Done</label>
+        </div>
+        <button  ng-click="item.editing = !item.editing" class="btn btn-xs btn-primary pull-right">Done</button>
+    </div>
+</div>
